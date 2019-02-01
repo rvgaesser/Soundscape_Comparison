@@ -1,4 +1,7 @@
 % ANOVA within site between season during from dusk to dawn
+% added a new branch and am making edits locally
+% Next steps: commit edits, push to remote, create pull request, merge to
+% master
 
 % Low Frequency band
 
