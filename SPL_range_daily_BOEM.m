@@ -1,7 +1,3 @@
-%% I am editing this script in GitHub online to test the file for use in matlab
-% now I have cloned the repository locally with Git Desktop and am going to
-% try to update it on the remote repository
-
 % Find Daily Range in SPL for each Deployment and Frequency Band
 
 % using max in low frequency drastically increases the daily range - use
