@@ -1,3 +1,5 @@
+%% I am editing this script in GitHub online to test the file for use in matlab
+
 % Find Daily Range in SPL for each Deployment and Frequency Band
 
 % using max in low frequency drastically increases the daily range - use
