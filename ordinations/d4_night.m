@@ -73,7 +73,7 @@ N = 4; szA = size(d4_aeolus);
 B = arrayfun(@(k) mean(d4_aeolus(:,k:min(szA(2),k+N-1)),2), 1:N:szA(2), 'un', 0); 
 mspec_AEOLU_night4 = [B{:}];
 
-%save d4_mspec.mat mspec_210RK_night4 mspec_CSPAR_night4 mspec_WESTR_night4 mspec_AEOLU_night4
+save d4_mspec.mat mspec_210RK_night4 mspec_CSPAR_night4 mspec_WESTR_night4 mspec_AEOLU_night4
 
 
 %% Combining the matrices

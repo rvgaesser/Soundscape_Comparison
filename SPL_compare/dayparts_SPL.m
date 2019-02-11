@@ -29,6 +29,8 @@ night_d3 = cat(2,find(tbins==d3_dusk):96,1:find(tbins==d3_dawn-.25));
 night_d4 = cat(2,find(tbins==d4_dusk):96,1:find(tbins==d4_dawn-.25));
 night_d5 = cat(2,find(tbins==d5_dusk):96,1:find(tbins==d5_dawn-.25));
 
+save daypart_tbins.mat dawn_d1 dawn_d2 dawn_d3 dawn_d4 dawn_d5 day_d1 day_d2 day_d3 day_d4 day_d5 dusk_d1 dusk_d2 dusk_d3 dusk_d4 dusk_d5 night_d1 night_d2 night_d3 night_d4 night_d5
+
 %% subset to dayparts
 % 210RK
 T1_dawn = 10*log10(low_210d1(:,dawn_d1)); T1_dawn_avg=mean2(T1_dawn);T1_dawn_sd=std2(T1_dawn);

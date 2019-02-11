@@ -73,7 +73,7 @@ N = 4; szA = size(d5_aeolus);
 B = arrayfun(@(k) mean(d5_aeolus(:,k:min(szA(2),k+N-1)),2), 1:N:szA(2), 'un', 0); 
 mspec_AEOLU_night5 = [B{:}];
 
-%save d5_mspec.mat mspec_210RK_night5 mspec_CSPAR_night5 mspec_WESTR_night5 mspec_AEOLU_night5
+save d5_mspec.mat mspec_210RK_night5 mspec_CSPAR_night5 mspec_WESTR_night5 mspec_AEOLU_night5
 
 
 %% Combining the matrices

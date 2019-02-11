@@ -64,7 +64,7 @@ save d1_mspec.mat mspec_210RK_night1 mspec_CSPAR_night1 mspec_WESTR_night1 f
 
 %% Combining the matrices
 
-mspec_d1_night = [mspec_210RK_night1 mspec_WESTR_night1 mspec_CSPAR_night1];
+%mspec_d1_night = [mspec_210RK_night1 mspec_WESTR_night1 mspec_CSPAR_night1];
 
 
 %% Calculating Df matrix 
