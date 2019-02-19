@@ -60,7 +60,7 @@ N = 4; szA = size(d1_spar);
 B = arrayfun(@(k) mean(d1_spar(:,k:min(szA(2),k+N-1)),2), 1:N:szA(2), 'un', 0); 
 mspec_CSPAR_night1 = [B{:}];
 
-save d1_mspec.mat mspec_210RK_night1 mspec_CSPAR_night1 mspec_WESTR_night1 f
+%save d1_mspec.mat mspec_210RK_night1 mspec_CSPAR_night1 mspec_WESTR_night1 f
 
 %% Combining the matrices
 
