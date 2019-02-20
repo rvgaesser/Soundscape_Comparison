@@ -1,13 +1,15 @@
-% ANOVA within site between season during from dusk to dawn
-% added a new branch and am making edits locally
-% Next steps: commit edits, push to remote, create pull request, merge to
-% master
+% Kruskal Wallis effect of site and season from sSET to dawn
+
+% Separated into low (.1-2 kHz) and high (7-20 kHz) frequency bands
 
 % Low Frequency band
+% Within site, between deploy show similar annual trend across all sites
+% Within deploy, between sites show no clear trend. SPL is highest on Spar
+% during active seasons, and freqeuntly lowest on West Rock
 
 clear
 load 'avg_suncycle.mat'
-load 'daily_SPL.mat'
+load 'daily_SPL.mat' % from fish_specific_all.m
 
 tbins = 0:.25:23.75;
 D1_na = find(tbins==d1_sSET):96;D1_nb = 1:find(tbins==d1_dawn-.25);
@@ -17,6 +19,9 @@ D4_na = find(tbins==d4_sSET):96;D4_nb = 1:find(tbins==d4_dawn-.25);
 D5_na = find(tbins==d5_sSET):96;D5_nb = 1:find(tbins==d5_dawn-.25);
 
 % Night
+% Rows are 2min avg SPL, every 15 @ night, columns each day during
+% deployment
+% Then calculate avg and SD for each site and deployment
 T1_n=cat(2,10*log10(low_210d1(:,D1_na)),10*log10(low_210d1(:,D1_nb)),NaN(8,2))'; T1_avg=nanmean(T1_n(:)); T1_sd=nanstd(T1_n(:)); 
 T2_n=cat(2,10*log10(low_210d2(:,D2_na)),10*log10(low_210d2(:,D2_nb)))'; T2_avg=nanmean(T2_n(:)); T2_sd=nanstd(T1_n(:));
 T3_n=cat(2,10*log10(low_210d3(:,D3_na)),10*log10(low_210d3(:,D3_nb)),NaN(8,12))'; T3_avg=nanmean(T3_n(:)); T3_sd=nanstd(T3_n(:));
@@ -36,33 +41,39 @@ A3_n=cat(2,10*log10(low_aeolud3(:,D3_na)),10*log10(low_aeolud3(:,D3_nb)),NaN(8,1
 A4_n=cat(2,10*log10(low_aeolud4(:,D4_na)),10*log10(low_aeolud4(:,D4_nb)),NaN(7,17))'; A4_avg=nanmean(A4_n(:)); A4_sd=nanstd(A4_n(:));
 A5_n=cat(2,10*log10(low_aeolud5(:,D5_na)),10*log10(low_aeolud5(:,D5_nb)),NaN(7,12))'; A5_avg=nanmean(A5_n(:)); A5_sd=nanstd(A5_n(:));
 
-% nall_T = [T1_n T2_n T3_n T4_n T5_n];% Combines each deployment
-% nall_W = [W1_n W2_n W3_n W4_n W5_n];
-% nall_C = [C1_n C2_n C3_n C4_n C5_n];
-% nall_A = [A3_n A4_n A5_n];
-% 
-% % ANOVA groups
-% deploys = {'D1','D1','D1','D1','D1','D1','D1','D1','D2','D2','D2','D2','D2','D2','D2','D2','D2','D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
-% deploysT = {'D1','D1','D1','D1','D1','D1','D1','D1','D2','D2','D2','D2','D2','D2','D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
-% deploysA = {'D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
-% 
-% % ANOVA & Multiple Comparisons
-% 
-% % Night
-% [~,~,stats] = anova1(nall_T,deploysT); multcompare(stats); title('210RK');
-% [~,~,stats] = anova1(nall_W,deploys); multcompare(stats);title('West Rock');
-% [~,~,stats] = anova1(nall_C,deploys); multcompare(stats);('Spar');
-% [~,~,stats] = anova1(nall_A,deploysA);multcompare(stats);('Aeolus');
+% Combines each deployment within site
+nall_T = [T1_n T2_n T3_n T4_n T5_n];
+nall_W = [W1_n W2_n W3_n W4_n W5_n];
+nall_C = [C1_n C2_n C3_n C4_n C5_n];
+nall_A = [A3_n A4_n A5_n];
 
+ % Groups
+deploys = {'D1','D1','D1','D1','D1','D1','D1','D1','D2','D2','D2','D2','D2','D2','D2','D2','D2','D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
+deploysT = {'D1','D1','D1','D1','D1','D1','D1','D1','D2','D2','D2','D2','D2','D2','D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
+deploysA = {'D3','D3','D3','D3','D3','D3','D3','D3','D4','D4','D4','D4','D4','D4','D4','D5','D5','D5','D5','D5','D5','D5'};
+
+% Kruskal Wallis & Multiple Comparisons
+% Compare deployements within site
+[~,~,stats] = kruskalwallis(nall_T,deploysT); multcompare(stats,'ctype','bonferroni'); title('210RK');
+[~,~,stats] = kruskalwallis(nall_W,deploys); multcompare(stats,'ctype','bonferroni');title('West Rock');
+[~,~,stats] = kruskalwallis(nall_C,deploys); multcompare(stats,'ctype','bonferroni');title('Spar');
+[~,~,stats] = kruskalwallis(nall_A,deploysA);multcompare(stats,'ctype','bonferroni');title('Aeolus');
+
+% Compare sites within deployment
 sites = {'T','W','C'};
 sites_A = {'T','W','C','A'};
 
-D1_l = [T1_n(:) W1_n(:) C1_n(:)];[~,~,stats] = anova1(D1_l,sites); multcompare(stats); title('D1');
-D2_l = [cat(1,T2_n(:),nan([147,1])) W2_n(:) C2_n(:)];[~,~,stats] = anova1(D2_l,sites); multcompare(stats); title('D2');
-D3_l = [T3_n(:) W3_n(:) C3_n(:) A3_n(:)];[~,~,stats] = anova1(D3_l,sites_A); multcompare(stats); title('D3');
-D4_l = [T4_n(:) W4_n(:) C4_n(:) A4_n(:)];[~,~,stats] = anova1(D4_l,sites_A); multcompare(stats); title('D4');
-D5_l = [T5_n(:) W5_n(:) C5_n(:) A5_n(:)];[~,~,stats] = anova1(D5_l,sites_A); multcompare(stats); title('D5');
+D1_l = [T1_n(:) W1_n(:) C1_n(:)];[~,~,stats] = kruskalwallis(D1_l,sites); multcompare(stats,'ctype','bonferroni'); title('D1');
+D2_l = [cat(1,T2_n(:),nan([147,1])) W2_n(:) C2_n(:)];[~,~,stats] = kruskalwallis(D2_l,sites); multcompare(stats,'ctype','bonferroni'); title('D2');
+D3_l = [T3_n(:) W3_n(:) C3_n(:) A3_n(:)];[~,~,stats] = kruskalwallis(D3_l,sites_A); multcompare(stats,'ctype','bonferroni'); title('D3');
+D4_l = [T4_n(:) W4_n(:) C4_n(:) A4_n(:)];[~,~,stats] = kruskalwallis(D4_l,sites_A); multcompare(stats,'ctype','bonferroni'); title('D4');
+D5_l = [T5_n(:) W5_n(:) C5_n(:) A5_n(:)];[~,~,stats] = kruskalwallis(D5_l,sites_A); multcompare(stats,'ctype','bonferroni'); title('D5');
 
+% Testing assumptions - does not meet ANOVA assumptions, use non-parametric
+% test
+low_all = [cat(1,D1_l,nan([49,3])) D2_l cat(1,D3_l,nan([49,4])) cat(1,D4_l,nan([98,4])) cat(1,D5_l,nan([98,4]))];
+figure; histogram(low_all);
+p = vartestn(low_all,'TestType','LeveneQuadratic'); 
 
 %% High Frequency band - night
 
@@ -85,20 +96,33 @@ A3_nh=cat(2,10*log10(high_aeolud3(:,D3_na)),10*log10(high_aeolud3(:,D3_nb)),NaN(
 A4_nh=cat(2,10*log10(high_aeolud4(:,D4_na)),10*log10(high_aeolud4(:,D4_nb)),NaN(7,17))'; A4_avgH=nanmean(A4_nh(:)); A4_sdH=nanstd(A4_nh(:));
 A5_nh=cat(2,10*log10(high_aeolud5(:,D5_na)),10*log10(high_aeolud5(:,D5_nb)),NaN(7,12))'; A5_avgH=nanmean(A5_nh(:)); A5_sdH=nanstd(A5_nh(:));
 
+% Combines each deployment
+nall_T_high = [T1_nh T2_nh T3_nh T4_nh T5_nh];
+nall_W_high = [W1_nh W2_nh W3_nh W4_nh W5_nh];
+nall_C_high = [C1_nh C2_nh C3_nh C4_nh C5_nh];
+nall_A_high = [A3_nh A4_nh A5_nh];
 
-% nall_T_high = [T1_nh T2_nh T3_nh T4_nh T5_nh];% Combines each deployment
-% nall_W_high = [W1_nH W2_nh W3_nh W4_nh W5_nh];
-% nall_C_high = [C1_nh C2_nh C3_nh C4_nh C5_nh];
-% nall_A_high = [A3_nh A4_nh A5_nh];
-% 
-% % ANOVA and multcompare
-% 
-% [~,~,stats] = anova1(nall_T_high,deploysT); multcompare(stats); title('210RK');
-% [~,~,stats] = anova1(nall_W_high,deploys); multcompare(stats);title('West Rock');
-% [~,~,stats] = anova1(nall_C_high,deploys); multcompare(stats);title('Spar');
-% [~,~,stats] = anova1(nall_A_high,deploysA); multcompare(stats);title('Aeolus');
+% ANOVA and multcompare
+[~,~,stats] = anova1(nall_T_high,deploysT); multcompare(stats,'ctype','bonferroni'); title('210RK');
+[~,~,stats] = anova1(nall_W_high,deploys); multcompare(stats,'ctype','bonferroni');title('West Rock');
+[~,~,stats] = anova1(nall_C_high,deploys); multcompare(stats,'ctype','bonferroni');title('Spar');
+[~,~,stats] = anova1(nall_A_high,deploysA); multcompare(stats,'ctype','bonferroni');title('Aeolus');
+
+D1_h = [T1_nh(:) W1_nh(:) C1_nh(:)];[~,~,stats] = kruskalwallis(D1_h,sites); multcompare(stats,'ctype','bonferroni'); title('D1 - High');
+D2_h = [cat(1,T2_nh(:),nan([147,1])) W2_nh(:) C2_nh(:)];[~,~,stats] = kruskalwallis(D2_h,sites); multcompare(stats,'ctype','bonferroni'); title('D2 - High');
+D3_h = [T3_nh(:) W3_nh(:) C3_nh(:) A3_nh(:)];[~,~,stats] = kruskalwallis(D3_h,sites_A); multcompare(stats,'ctype','bonferroni'); title('D3 - High');
+D4_h = [T4_nh(:) W4_nh(:) C4_nh(:) A4_nh(:)];[~,~,stats] = kruskalwallis(D4_h,sites_A); multcompare(stats,'ctype','bonferroni'); title('D4  - High');
+D5_h = [T5_nh(:) W5_nh(:) C5_nh(:) A5_nh(:)];[~,~,stats] = kruskalwallis(D5_h,sites_A); multcompare(stats,'ctype','bonferroni'); title('D5 - High');
+
+% Testing assumptions - Does not meet ANOVA assumptions, use non-parametric
+% test
+high_all = [cat(1,D1_h,nan([49,3])) D2_h cat(1,D3_h,nan([49,4])) cat(1,D4_h,nan([98,4])) cat(1,D5_h,nan([98,4]))];
+figure; histogram(high_all);
+p = vartestn(high_all,'TestType','LeveneQuadratic'); 
 
 %% Plotting
+
+% Bar plot of average SPL at night with SD error bars
 
 %%% SPL at night grouped by Deployment
 D1_low = [T1_avg W1_avg C1_avg NaN]; D1_sd_low = [T1_sd W1_sd C1_sd NaN];
@@ -116,19 +140,19 @@ hold on; errorbar(xBar,avg_night_low,std_night_low,'k.'); legend('210 Rock', 'We
 xlabel('Deployment');ylabel('Mean SPL at night (dB re 1uPa)'); title('Low Frequency SPL at Night')
 
 %%% SPL at night grouped by Site
-T_low_avg = [T1_avg T2_avg T3_avg T4_avg T5_avg]; T_low_sd = [T1_sd T2_sd T3_sd T4_sd T5_sd];
-W_low_avg = [W1_avg W2_avg W3_avg W4_avg W5_avg]; W_low_sd = [W1_sd W2_sd W3_sd W4_sd W5_sd];
-C_low_avg = [C1_avg C2_avg C3_avg C4_avg C5_avg]; C_low_sd = [C1_sd C2_sd C3_sd C4_sd C5_sd];
-A_low_avg = [NaN NaN A3_avg A4_avg A5_avg]; A_low_sd = [NaN NaN A3_sd A4_sd A5_sd];
-
-n_low_sites = [T_low_avg;W_low_avg;C_low_avg;A_low_avg];
-n_low_sites_sd = [T_low_sd;W_low_sd;C_low_sd;A_low_sd];
-
-figure;
-hBar = bar(n_low_sites);ylim([85 125]); xBar=cell2mat(get(hBar,'XData')).' + [hBar.XOffset];
-hold on; errorbar(xBar,n_low_sites,n_low_sites_sd,'k.'); legend('D1', 'D2', 'D3','D4','D5');
-xlabel('Site');ylabel('Mean SPL at night (dB re 1uPa)');xticklabels({'210 Rock','West Rock','Spar','Aeolus'});
-title('Low Frequency SPL at Night');
+% T_low_avg = [T1_avg T2_avg T3_avg T4_avg T5_avg]; T_low_sd = [T1_sd T2_sd T3_sd T4_sd T5_sd];
+% W_low_avg = [W1_avg W2_avg W3_avg W4_avg W5_avg]; W_low_sd = [W1_sd W2_sd W3_sd W4_sd W5_sd];
+% C_low_avg = [C1_avg C2_avg C3_avg C4_avg C5_avg]; C_low_sd = [C1_sd C2_sd C3_sd C4_sd C5_sd];
+% A_low_avg = [NaN NaN A3_avg A4_avg A5_avg]; A_low_sd = [NaN NaN A3_sd A4_sd A5_sd];
+% 
+% n_low_sites = [T_low_avg;W_low_avg;C_low_avg;A_low_avg];
+% n_low_sites_sd = [T_low_sd;W_low_sd;C_low_sd;A_low_sd];
+% 
+% figure;
+% hBar = bar(n_low_sites);ylim([85 125]); xBar=cell2mat(get(hBar,'XData')).' + [hBar.XOffset];
+% hold on; errorbar(xBar,n_low_sites,n_low_sites_sd,'k.'); legend('D1', 'D2', 'D3','D4','D5');
+% xlabel('Site');ylabel('Mean SPL at night (dB re 1uPa)');xticklabels({'210 Rock','West Rock','Spar','Aeolus'});
+% title('Low Frequency SPL at Night');
 
 %% Plotting high frequency
 %%% SPL at night grouped by Deployment
@@ -147,19 +171,19 @@ hold on; errorbar(xBar,avg_night_high,std_night_high,'k.'); legend('210 Rock', '
 xlabel('Deployment');ylabel('Mean SPL at night (dB re 1uPa)'); title('High Frequency SPL at Night')
 
 %%% SPL at night grouped by Site
-T_high_avgH = [T1_avgH T2_avgH T3_avgH T4_avgH T5_avgH]; T_high_sd = [T1_sdH T2_sdH T3_sdH T4_sdH T5_sdH];
-W_high_avgH = [W1_avgH W2_avgH W3_avgH W4_avgH W5_avgH]; W_high_sd = [W1_sdH W2_sdH W3_sdH W4_sdH W5_sdH];
-C_high_avgH = [C1_avgH C2_avgH C3_avgH C4_avgH C5_avgH]; C_high_sd = [C1_sdH C2_sdH C3_sdH C4_sdH C5_sdH];
-A_high_avgH = [NaN NaN A3_avgH A4_avgH A5_avgH]; A_high_sd = [NaN NaN A3_sdH A4_sdH A5_sdH];
-
-n_high_sites = [T_high_avgH;W_high_avgH;C_high_avgH;A_high_avgH];
-n_high_sites_sd = [T_high_sd;W_high_sd;C_high_sd;A_high_sd];
-
-figure;
-hBar = bar(n_high_sites);ylim([85 125]); xBar=cell2mat(get(hBar,'XData')).' + [hBar.XOffset];
-hold on; errorbar(xBar,n_high_sites,n_high_sites_sd,'k.'); legend('D1', 'D2', 'D3','D4','D5');
-xlabel('Site');ylabel('Mean SPL at night (dB re 1uPa)');xticklabels({'210 Rock','West Rock','Spar','Aeolus'});
-title('High Frequency SPL at Night');
+% T_high_avgH = [T1_avgH T2_avgH T3_avgH T4_avgH T5_avgH]; T_high_sd = [T1_sdH T2_sdH T3_sdH T4_sdH T5_sdH];
+% W_high_avgH = [W1_avgH W2_avgH W3_avgH W4_avgH W5_avgH]; W_high_sd = [W1_sdH W2_sdH W3_sdH W4_sdH W5_sdH];
+% C_high_avgH = [C1_avgH C2_avgH C3_avgH C4_avgH C5_avgH]; C_high_sd = [C1_sdH C2_sdH C3_sdH C4_sdH C5_sdH];
+% A_high_avgH = [NaN NaN A3_avgH A4_avgH A5_avgH]; A_high_sd = [NaN NaN A3_sdH A4_sdH A5_sdH];
+% 
+% n_high_sites = [T_high_avgH;W_high_avgH;C_high_avgH;A_high_avgH];
+% n_high_sites_sd = [T_high_sd;W_high_sd;C_high_sd;A_high_sd];
+% 
+% figure;
+% hBar = bar(n_high_sites);ylim([85 125]); xBar=cell2mat(get(hBar,'XData')).' + [hBar.XOffset];
+% hold on; errorbar(xBar,n_high_sites,n_high_sites_sd,'k.'); legend('D1', 'D2', 'D3','D4','D5');
+% xlabel('Site');ylabel('Mean SPL at night (dB re 1uPa)');xticklabels({'210 Rock','West Rock','Spar','Aeolus'});
+% title('High Frequency SPL at Night');
 
 
 %% Dusk low frequency   - not as useful

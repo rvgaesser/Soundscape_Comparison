@@ -5,7 +5,7 @@ clear
 load('daily_SPL.mat');
 
 %% High Frequency Range
-% 210 Rock 
+% 210 Rock  
 c = quantile(high_210d1,0.05,2); d = quantile(high_210d1,0.95,2);rangeT1 = 10*log10(d)-10*log10(c); 
 c = quantile(high_210d2,0.05,2); d = quantile(high_210d2,0.95,2);rangeT2 = 10*log10(d)-10*log10(c);
 c = quantile(high_210d3,0.05,2); d = quantile(high_210d3,0.95,2);rangeT3 = 10*log10(d)-10*log10(c);
@@ -58,44 +58,41 @@ range_A_all = [rangeA3H rangeA4H rangeA5H];
 range_high_all = [range_T_all range_W_all range_C_all range_A_all];
 deploys_all = {'T1','T2','T3','T4','T5','W1','W2','W3','W4','W5','C1','C2','C3','C4','C5','A3','A4','A5'};
 
-% Testing assumptions - does not meet assumptions of homogeneity of
-% variance
-adtest(range_high_all(:))
+% Testing assumptions - does not meet assumptions 
+figure;histogram(range_high_all);
 p = vartestn(range_high_all,'TestType','LeveneQuadratic')
 
-%%%% Old Method using Kruskal Wallis - trying GLM first
-% [~,~,stats] = kruskalwallis(range_high_all,deploys_all);multcompare(stats,'ctype','bonferroni');title('High Frequency Ranges');
-% 
-% % reporting values based on Kruskal Wallis Test
-% range_all = [range_W_all range_C_all range_A_all];
-% mean_range_high = nanmean(range_all(:));
-% sd_range_high = nanstd(range_all(:));
-% 
-% mean_range_T_high = nanmean(range_T_all(:));
-% sd_range_T_high = nanstd(range_T_all(:));
-% 
-% %%%%%%%%%%%%%%%%%%%%%%%
-% deploys = {'1','2','3','4','5'};
-% A_deploys = {'3','4','5'};
-% 
-% % Kruskal Wallis Test with Bonferroni correction
-% [~,~,stats] = kruskalwallis(range_T_all,deploys);multcompare(stats,'ctype','bonferroni'); title('210RK High Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_W_all,deploys);multcompare(stats,'ctype','bonferroni'); title('WESTR High Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_C_all,deploys);multcompare(stats,'ctype','bonferroni'); title('CSPAR High Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_A_all,A_deploys);multcompare(stats,'ctype','bonferroni'); title('AEOLU High Frequency Daily Range');
-%         % CSPAR is technically sig. dif. between D2 and D4
-% 
-% % reporting mean range +/- SD for each site
-% range_210RK_h = nanmean(range_T_all(:));sd_210RK_h = nanstd(range_T_all(:));
-% range_westr_h = nanmean(range_W_all(:));sd_westr_h = nanstd(range_W_all(:));
-% range_cspar_h = nanmean(range_C_all(:));sd_cspar_h = nanstd(range_C_all(:));
-% range_aeolu_h = nanmean(range_A_all(:));sd_aeolu_h = nanstd(range_A_all(:));
-% 
-% %%%%%%%%%%%%%%%%%%%%
-% high_range_all = [range_T_all(:) range_W_all(:) range_C_all(:) cat(1,range_A_all(:),nan(18,1))];
-% sites = {'T','W','C','A'};
-% [~,~,stats] = kruskalwallis(high_range_all,sites);multcompare(stats,'ctype','bonferroni');title('Mean SPL daily range - all deploys');     % 210RK has sig. lower daily range than other sites
+%% Kruskal Wallis 
+[~,~,stats] = kruskalwallis(range_high_all,deploys_all);multcompare(stats,'ctype','bonferroni');title('High Frequency Ranges');
 
+deploys = {'1','2','3','4','5'};
+A_deploys = {'3','4','5'};
+
+% Kruskal Wallis Test with Bonferroni correction
+[~,~,stats] = kruskalwallis(range_T_all,deploys);multcompare(stats,'ctype','bonferroni'); title('210RK High Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_W_all,deploys);multcompare(stats,'ctype','bonferroni'); title('WESTR High Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_C_all,deploys);multcompare(stats,'ctype','bonferroni'); title('CSPAR High Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_A_all,A_deploys);multcompare(stats,'ctype','bonferroni'); title('AEOLU High Frequency Daily Range');
+        % CSPAR is technically sig. dif. between D2 and D4
+
+% reporting mean range +/- SD for each site
+range_210RK_h = nanmean(range_T_all(:));sd_210RK_h = nanstd(range_T_all(:));
+range_westr_h = nanmean(range_W_all(:));sd_westr_h = nanstd(range_W_all(:));
+range_cspar_h = nanmean(range_C_all(:));sd_cspar_h = nanstd(range_C_all(:));
+range_aeolu_h = nanmean(range_A_all(:));sd_aeolu_h = nanstd(range_A_all(:));
+
+% Combined all deploys within site to evaluate site differences
+high_range_all = [range_T_all(:) range_W_all(:) range_C_all(:) cat(1,range_A_all(:),nan(18,1))];
+sites = {'T','W','C','A'};
+[~,~,stats] = kruskalwallis(high_range_all,sites);multcompare(stats,'ctype','bonferroni');title('Mean SPL daily range - all deploys');     % 210RK has sig. lower daily range than other sites
+
+% reporting values based on Kruskal Wallis Test
+range_all = [range_W_all range_C_all range_A_all];
+mean_range_high = nanmean(range_all(:));
+sd_range_high = nanstd(range_all(:));
+
+mean_range_T_high = nanmean(range_T_all(:));
+sd_range_T_high = nanstd(range_T_all(:));
 
 %% Low Frequency  
 c = quantile(low_210d1,0.05,2); d = quantile(low_210d1,0.95,2);rangeT1L = 10*log10(d)-10*log10(c);
@@ -148,41 +145,36 @@ range_A_all_l = [rangeA3_l rangeA4_l rangeA5_l];
 range_low_all = [range_T_all_l range_W_all_l range_C_all_l range_A_all_l];
 deploys_all = {'T1','T2','T3','T4','T5','W1','W2','W3','W4','W5','C1','C2','C3','C4','C5','A3','A4','A5',};
 
-adtest(range_low_all(:))
+% Testing assumptions
+figure; histogram(range_low_all);
 p = vartestn(range_low_all,'TestType','LeveneQuadratic')
 
 [~,~,stats] = kruskalwallis(range_low_all,deploys_all);multcompare(stats,'ctype','bonferroni');title('Low Frequency Ranges');
-[~,~,stats] = anova(range_low_all,deploys_all);multcompare(stats,'ctype','bonferroni');title('Low Frequency Ranges');
-
-range_all_low = [range_T_all_l range_W_all_l range_C_all_l range_A_all_l];
-mean_range_low = nanmean(range_all_low(:));
-sd_range_low = nanstd(range_all_low(:));
 
 deploys = {'1','2','3','4','5'};
 A_deploys = {'3','4','5'};
 
 % Kruskal Wallis Test with Bonferroni correction 
-% [~,~,stats] = kruskalwallis(range_T_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('210RK low Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_W_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('WESTR low Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_C_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('CSPAR low Frequency Daily Range');
-% [~,~,stats] = kruskalwallis(range_A_all_l,A_deploys);multcompare(stats,'ctype','bonferroni'); title('AEOLU low Frequency Daily Range');
-% % CSPAR D4 and 5 are different
-% 
-% % ANOVA also not significantly different
-% [~,~,stats] = anova1(range_T_all_l,deploys);multcompare(stats); title('210RK low Frequency Daily Range');
-% [~,~,stats] = anova1(range_W_all_l,deploys);multcompare(stats); title('WESTR low Frequency Daily Range');
-% [~,~,stats] = anova1(range_C_all_l,deploys);multcompare(stats); title('CSPAR low Frequency Daily Range');
-% [~,~,stats] = anova1(range_A_all_l,A_deploys);multcompare(stats); title('AEOLU low Frequency Daily Range');
-% 
-% % reporting mean range +/- SD for each site
-% range_210RK_l = nanmean(range_T_all_l(:));sd_210RK_l = nanstd(range_T_all_l(:));
-% range_westr_l = nanmean(range_W_all_l(:));sd_westr_l = nanstd(range_W_all_l(:));
-% range_cspar_l = nanmean(range_C_all_l(:));sd_cspar_l = nanstd(range_C_all_l(:));
-% range_aeolu_l = nanmean(range_A_all_l(:));sd_aeolu_l = nanstd(range_A_all_l(:));
+[~,~,stats] = kruskalwallis(range_T_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('210RK low Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_W_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('WESTR low Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_C_all_l,deploys);multcompare(stats,'ctype','bonferroni'); title('CSPAR low Frequency Daily Range');
+[~,~,stats] = kruskalwallis(range_A_all_l,A_deploys);multcompare(stats,'ctype','bonferroni'); title('AEOLU low Frequency Daily Range');
+% CSPAR D4 and 5 are different
 
-% low_range_all = [range_T_all_l(:) range_W_all_l(:) range_C_all_l(:) cat(1,range_A_all_l(:),nan(18,1))];
-% sites = {'T','W','C','A'};
-% [~,~,stats] = anova1(low_range_all,sites);multcompare(stats,'ctype','bonferroni');title('Mean SPL daily range - all deploys'); 
-% 
-% low_range_TWA = [range_T_all_l(:) range_W_all_l(:) cat(1,range_A_all_l(:),nan(18,1))];
-% nanmean(low_range_TWA(:)); nanstd(low_range_TWA(:));
+% reporting mean range +/- SD for each site
+range_210RK_l = nanmean(range_T_all_l(:));sd_210RK_l = nanstd(range_T_all_l(:));
+range_westr_l = nanmean(range_W_all_l(:));sd_westr_l = nanstd(range_W_all_l(:));
+range_cspar_l = nanmean(range_C_all_l(:));sd_cspar_l = nanstd(range_C_all_l(:));
+range_aeolu_l = nanmean(range_A_all_l(:));sd_aeolu_l = nanstd(range_A_all_l(:));
+
+% Spar has significantly higher daily range than other sites
+low_range_all = [range_T_all_l(:) range_W_all_l(:) range_C_all_l(:) cat(1,range_A_all_l(:),nan(18,1))];
+sites = {'T','W','C','A'};
+[~,~,stats] = kruskalwallis(low_range_all,sites);multcompare(stats,'ctype','bonferroni');title('Mean SPL daily range - all deploys'); 
+ 
+low_range_TWA = [range_T_all_l(:) range_W_all_l(:) cat(1,range_A_all_l(:),nan(18,1))];
+mean_TWA = nanmean(low_range_TWA(:)); sd_TWA = nanstd(low_range_TWA(:));
+
+% reporting overall mean across all sites and deployments
+mean_range_low = nanmean(range_low_all(:));
+sd_range_low = nanstd(range_low_all(:));
