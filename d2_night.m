@@ -26,7 +26,6 @@ d2_210 = squeeze(mean(b,2)); %avg po each file time over deployment
 N = 4; szA = size(d2_210);
 B = arrayfun(@(k) mean(d2_210(:,k:min(szA(2),k+N-1)),2), 1:N:szA(2), 'un', 0); % calc mean each hour or 4 files
 mspec_210RK_night2 = [B{:}]; %avg spectra each hr
-%1st col is 1hr pre-sSET, last col is 1hr post-sRISE
 
 load('WESTR_D2/results_ST02_TWO_WESTR.mat'); %(13:876)
 matdays = matdays(13:876); 
@@ -71,6 +70,7 @@ mspec_d2_night = [mspec_210RK_night2 mspec_WESTR_night2 mspec_CSPAR_night2];
 c = 1;
 f1 = 100;
 f2 = 2000;
+band = find(f>=f1 & f<=f2);
 for i = 1:39
     S1 = mspec_d2_night(:,i);
     for j = i+1:39
@@ -88,16 +88,25 @@ Df_square_d2 = squareform(Df);
 % NMDS
 [Y2,stress2] = mdscale(Df_square_d2,2);
 g2_site = {'T','T','T','T','T','T','T','T','T','T','T','T','T','W','W','W','W','W','W','W','W','W','W','W','W','W','S','S','S','S','S','S','S','S','S','S','S','S','S'};
-clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
-figure; gscatter(Y2(:,1),Y2(:,2),{g2_site},clr,'.',25); ylim([-0.20 0.25]);
-set(gca,'FontSize',18);
-legend('210 Rock','WESTR','CSPAR','location','southwest'); title('January 2016');
+%clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
+clr = colormap(parula(3));
+figure;subplot(1,2,1); 
+gscatter(Y2(:,1),Y2(:,2),{g2_site},clr,'.',25); ylim([-0.20 0.25]);
+set(gca,'FontSize',18); legend('210 Rock','West Rock','Spar','location','southwest'); title('January 2016');
 xlabel('NMS 1'); ylabel('NMS 2');
-print('-bestfit','d2_ord','-dpdf')
+
+subplot(1,2,2); 
+plot(f(band),10*log10(mean(mspec_210RK_night2(band,:),2)),'Color',clr(1,:));hold on;
+plot(f(band),10*log10(mean(mspec_WESTR_night2(band,:),2)),'Color',clr(2,:));hold on;
+plot(f(band),10*log10(mean(mspec_CSPAR_night2(band,:),2)),'Color',clr(3,:));hold off;
+title('Average spectra at night');legend('210 Rock', 'West Rock', 'Spar');
+xlabel('Frequency (Hz)');ylabel('SPL dB re 1uPa');
+
+%print('-bestfit','d2_ord','-dpdf')
 
 % Shepard Plot
-% distances = pdist(Y2);figure;
-% plot(Df,distances,'bo',[0 1],[0 1],'k-');
-% xlabel('Dissimilarities');ylabel('Distances');
-% title('D2 night - Shepard Plot');
+distances = pdist(Y2);figure;
+plot(Df,distances,'bo',[0 1],[0 1],'k-');
+xlabel('Dissimilarities');ylabel('Distances');
+title('D2 night - Shepard Plot');
 

@@ -89,6 +89,7 @@ mspec_d3_night = [mspec_210RK_night3 mspec_WESTR_night3 mspec_CSPAR_night3 mspec
 c = 1;
 f1 = 100;
 f2 = 2000;
+band = find(f>=f1 & f<=f2);
 for i = 1:40
     S1 = mspec_d3_night(:,i);
     for j = i+1:40
@@ -106,11 +107,21 @@ Df_square_d3 = squareform(Df);
 % NMDS
 [Y3,stress] = mdscale(Df_square_d3,2);
 g3_site = {'T','T','T','T','T','T','T','T','T','T','W','W','W','W','W','W','W','W','W','W','S','S','S','S','S','S','S','S','S','S','A','A','A','A','A','A','A','A','A','A'};
-clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
-figure; gscatter(Y3(:,1),Y3(:,2),{g3_site},clr,'.',25);set(gca,'FontSize',18);
+%clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
+clr = colormap(parula(4));
+figure; subplot(1,2,1);
+gscatter(Y3(:,1),Y3(:,2),{g3_site},clr,'.',25);set(gca,'FontSize',18);
 legend('210 Rock','West Rock','Spar','Aeolus','location','southwest'); title('April 2016');
 xlabel('NMS 1'); ylabel('NMS 2');
-print('-bestfit','d3_ord','-dpdf')
+
+subplot(1,2,2); 
+plot(f(band),10*log10(mean(mspec_210RK_night3(band,:),2)),'Color',clr(1,:));hold on;
+plot(f(band),10*log10(mean(mspec_WESTR_night3(band,:),2)),'Color',clr(2,:));hold on;
+plot(f(band),10*log10(mean(mspec_CSPAR_night3(band,:),2)),'Color',clr(3,:));hold on;
+plot(f(band),10*log10(mean(mspec_AEOLU_night3(band,:),2)),'Color',clr(4,:));hold off;
+title('Average spectra at night');legend('210 Rock', 'West Rock', 'Spar','Aeolus');
+xlabel('Frequency (Hz)');ylabel('SPL dB re 1uPa');
+%print('-bestfit','d3_ord','-dpdf')
 
 % Shepard Plot
 % distances = pdist(Y3);figure;

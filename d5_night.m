@@ -9,12 +9,12 @@ tbins = 0:0.25:23.75;
 night_d5 = cat(2,tbins(find(tbins==d5_sSET):96),tbins(1:find(tbins==d5_dawn-.25)));
 
 load('210RK_D5/results_ST04_FIVE_210.mat');
-matdays = matdays(5:676);
-poavg = poavg(:,5:676);
+matdays = matdays(101:676); % was 5
+poavg = poavg(:,101:676);
 t=matdays-(4/24); 
 [~,~,~,hr,mn,~]=datevec(t); 
 hrmn=hr+mn/60; 
-b = NaN(16385,7,37);
+b = NaN(16385,6,37);
 for i = 1:length(night_d5) 
     a = find(hrmn == night_d5(i)); 
     b(:,:,i) = poavg(:,a); 
@@ -85,7 +85,8 @@ mspec_d5_night = [mspec_210RK_night5 mspec_WESTR_night5 mspec_CSPAR_night5 mspec
 c = 1;
 f1 = 100;
 f2 = 2000;
-for i = 1:40
+band = find(f>=f1 & f<=f2);
+for i = 1:40 
     S1 = mspec_d5_night(:,i);
     for j = i+1:40
         S2 = mspec_d5_night(:,j);
@@ -102,12 +103,24 @@ Df_square_d5 = squareform(Df);
 % NMDS
 [Y5,stress5] = mdscale(Df_square_d5,2);
 g5_site = {'T','T','T','T','T','T','T','T','T','T','W','W','W','W','W','W','W','W','W','W','S','S','S','S','S','S','S','S','S','S','A','A','A','A','A','A','A','A','A','A'};
-clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
-figure; gscatter(Y5(:,1),Y5(:,2),{g5_site},clr,'.',25);
+%clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
+clr = colormap(parula(4));
+figure; subplot(1,2,1);
+gscatter(Y5(:,1),Y5(:,2),{g5_site},clr,'.',25);
 set(gca,'FontSize',18);
 legend('210 Rock','West Rock','Spar','Aeolus','location','northeast'); title('August 2016');
 xlabel('NMS 1'); ylabel('NMS 2');
-print('-bestfit','d5_ord','-dpdf')
+
+subplot(1,2,2); 
+plot(f(band),10*log10(mean(mspec_210RK_night5(band,:),2)),'Color',clr(1,:));hold on;
+plot(f(band),10*log10(mean(mspec_WESTR_night5(band,:),2)),'Color',clr(2,:));hold on;
+plot(f(band),10*log10(mean(mspec_CSPAR_night5(band,:),2)),'Color',clr(3,:));hold on;
+plot(f(band),10*log10(mean(mspec_AEOLU_night5(band,:),2)),'Color',clr(4,:));hold off;
+title('Average spectra at night');legend('210 Rock', 'West Rock', 'Spar','Aeolus');
+xlabel('Frequency (Hz)');ylabel('SPL dB re 1uPa');
+
+
+%print('-bestfit','d5_ord','-dpdf')
 
 % Shepard Plot
 % distances = pdist(Y5);figure;

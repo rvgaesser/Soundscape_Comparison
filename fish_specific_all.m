@@ -5,378 +5,381 @@
 
 %% Fish Specific Patterns
 
-clear
-
-day6 = 1:6;
-day7 = 1:7;
-day8 = 1:8;
-day9 = 1:9;
-
-% 210RK D1
-load('210RK_D1/results_ST01_One_210RK.mat');
-matdays = matdays(13:780);
-poavg = poavg(:,13:780);
-tbins=0:0.25:23.75;
-low = find(f>=100 & f<=2000);
-toadfish = find(f>170 & f<=380);
-tomtate =find(f>=600&f<=700); 
-high = find(f>=7000 & f<= 20000);
-low_210d1 = NaN(8,96);
-tom_210d1 = NaN(8,96);
-toad_210d1 = NaN(8,96);
-high_210d1 = NaN(8,96);
-t=matdays-(4/24);
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60;
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_210d1(:,i) = sum(poavg(low,a));
-    tom_210d1(:,i) = sum(poavg(tomtate,a)); 
-    toad_210d1(:,i) = sum(poavg(toadfish,a));
-    high_210d1(:,i) = sum(poavg(high,a));
-end
-
-% 210RK D2 
-% Trimmed to include only full days
-load('210RK_D2/results_ST01_TWO_210.mat'); 
-matdays = cat(1,matdays(29:124),matdays(304:783));
-poavg = cat(2,poavg(:,29:124),poavg(:,304:783));
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_210d2 = NaN(6,96);
-tom_210d2 = NaN(6,96);
-toad_210d2 = NaN(6,96);
-high_210d2 = NaN(6,96);
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_210d2(:,i) = sum(poavg(low,a));
-    tom_210d2(:,i) = sum(poavg(tomtate,a)); 
-    toad_210d2(:,i) = sum(poavg(toadfish,a));
-    high_210d2(:,i) = sum(poavg(high,a));
-end
-
-
-
-% 210RK D3
-load('210RK_D3/results_ST01_THREE_210.mat');
-matdays = matdays(37:804);
-poavg = poavg(:,37:804);
-t=matdays-(4/24);  
-[~,~,~,hr,mn,~]=datevec(t);
-hrmn=hr+mn/60;
-low_210d3 = NaN(8,96);
-tom_210d3 = NaN(8,96);
-toad_210d3 = NaN(8,96);
-high_210d3 = NaN(8,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_210d3(:,i) = sum(poavg(low,a)); 
-    tom_210d3(:,i) = sum(poavg(tomtate,a)); 
-    toad_210d3(:,i) = sum(poavg(toadfish,a));
-    high_210d3(:,i) = sum(poavg(high,a));
-end
-
-% 210RK D4
-load('210RK_D4/results_ST01_FOUR_210.mat');
-matdays = matdays(1:672); 
-poavg = poavg(:,1:672);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_210d4 = NaN(7,96);
-tom_210d4 = NaN(7,96);
-toad_210d4 = NaN(7,96);
-high_210d4 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_210d4(:,i) = sum(poavg(low,a));
-    tom_210d4(:,i) = sum(poavg(tomtate,a)); 
-    toad_210d4(:,i) = sum(poavg(toadfish,a));
-    high_210d4(:,i) = sum(poavg(high,a));
-end
-
-%210RK D5
-load('210RK_D5/results_ST04_FIVE_210.mat');
-matdays = matdays(5:676); 
-poavg = poavg(:,5:676);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_210d5 = NaN(7,96);
-tom_210d5 = NaN(7,96);
-toad_210d5 = NaN(7,96);
-high_210d5 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_210d5(:,i) = sum(poavg(low,a));
-    tom_210d5(:,i) = sum(poavg(tomtate,a)); 
-    toad_210d5(:,i) = sum(poavg(toadfish,a));
-    high_210d5(:,i) = sum(poavg(high,a));
-end
-
-% WESTR D1
-load('WESTR_D1/results_ST02_ONE_WESTR.mat'); %(13:780)
-matdays = matdays(13:780);
-poavg = poavg(:,13:780);
-tbins=0:0.25:23.75; 
-low_westrd1 = NaN(8,96);
-tom_westrd1 = NaN(8,96);
-toad_westrd1 = NaN(8,96);
-high_westrd1 = NaN(8,96);
-t=matdays-(4/24);
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60;
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_westrd1(:,i) = sum(poavg(low,a));
-    tom_westrd1(:,i) = sum(poavg(tomtate,a)); 
-    toad_westrd1(:,i) = sum(poavg(toadfish,a));
-    high_westrd1(:,i) = sum(poavg(high,a));
-end
-
-% WESTR D2 
-
-load('WESTR_D2/results_ST02_TWO_WESTR.mat'); %(13:876)
-matdays = matdays(13:876); 
-poavg = poavg(:,13:876);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_westrd2 = NaN(9,96);
-tom_westrd2 = NaN(9,96);
-toad_westrd2 = NaN(9,96);
-high_westrd2 = NaN(9,96);
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_westrd2(:,i) = sum(poavg(low,a));
-    tom_westrd2(:,i) = sum(poavg(tomtate,a)); 
-    toad_westrd2(:,i) = sum(poavg(toadfish,a));
-    high_westrd2(:,i) = sum(poavg(high,a));
-end
-
-
-
-% WESTR D3
-load('WESTR_D3/results_ST02_THREE_WESTR.mat'); %(25:792)
-matdays = matdays(25:792);
-poavg = poavg(:,25:792);
-t=matdays-(4/24);  
-[~,~,~,hr,mn,~]=datevec(t);
-hrmn=hr+mn/60;
-low_westrd3 = NaN(8,96);
-tom_westrd3 = NaN(8,96);
-toad_westrd3 = NaN(8,96);
-high_westrd3 = NaN(8,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_westrd3(:,i) = sum(poavg(low,a));
-    tom_westrd3(:,i) = sum(poavg(tomtate,a)); 
-    toad_westrd3(:,i) = sum(poavg(toadfish,a));
-    high_westrd3(:,i) = sum(poavg(high,a));
-
-end
-
-% WESTR D4
-load('WESTR_D4/results_ST02_FOUR_WESTR.mat'); %(1:672)
-matdays = matdays(1:672); 
-poavg = poavg(:,1:672);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_westrd4 = NaN(7,96);
-tom_westrd4 = NaN(7,96);
-toad_westrd4 = NaN(7,96);
-high_westrd4 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_westrd4(:,i) = sum(poavg(low,a));
-    tom_westrd4(:,i) = sum(poavg(tomtate,a)); 
-    toad_westrd4(:,i) = sum(poavg(toadfish,a));
-    high_westrd4(:,i) = sum(poavg(high,a));
-end
-
-% WESTR D5
-load('WESTR_D5/results_ST01_FIVE_WESTR.mat'); %(5:676)
-matdays = matdays(5:676); 
-poavg = poavg(:,5:676);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_westrd5 = NaN(7,96);
-tom_westrd5 = NaN(7,96);
-toad_westrd5 = NaN(7,96);
-high_westrd5 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_westrd5(:,i) = sum(poavg(low,a));
-    tom_westrd5(:,i) = sum(poavg(tomtate,a)); 
-    toad_westrd5(:,i) = sum(poavg(toadfish,a));
-    high_westrd5(:,i) = sum(poavg(high,a));
-end
-
-% CSPAR D1
-load('CSPAR_D1/results_ST03_ONE_CSPAR.mat'); %(1:768)
-matdays = matdays(1:768);
-poavg = poavg(:,1:768);
-low_cspard1 = NaN(8,96);
-tom_cspard1 = NaN(8,96);
-toad_cspard1 = NaN(8,96);
-high_cspard1 = NaN(8,96);
-t=matdays-(4/24);
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60;
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_cspard1(:,i) = sum(poavg(low,a));
-    tom_cspard1(:,i) = sum(poavg(tomtate,a)); 
-    toad_cspard1(:,i) = sum(poavg(toadfish,a));
-    high_cspard1(:,i) = sum(poavg(high,a));
-end
-
-% CSPAR D2 
-load('CSPAR_D2/results_ST03_TWO_CSPAR.mat'); %(13:876)
-matdays = matdays(13:876); 
-poavg = poavg(:,13:876);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_cspard2 = NaN(9,96);
-toad_cspard2 = NaN(9,96);
-tom_cspard2 = NaN(9,96);
-high_cspard2 = NaN(9,96);
-for i = 1:length(tbins) 
-    a = find(hrmn == tbins(i)); 
-    low_cspard2(:,i) = sum(poavg(low,a));
-    tom_cspard2(:,i) = sum(poavg(tomtate,a)); 
-    toad_cspard2(:,i) = sum(poavg(toadfish,a));
-    high_cspard2(:,i) = sum(poavg(high,a));
-end
-
-
-
-% CSPAR D3
-load('CSPAR_D3/results_ST03_THREE_CSPAR.mat'); %(25:792)
-matdays = matdays(25:792);
-poavg = poavg(:,25:792);
-t=matdays-(4/24);  
-[~,~,~,hr,mn,~]=datevec(t);
-hrmn=hr+mn/60;
-low_cspard3 = NaN(8,96);
-tom_cspard3 = NaN(8,96);
-toad_cspard3 = NaN(8,96);
-high_cspard3 = NaN(8,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_cspard3(:,i) = sum(poavg(low,a));
-    tom_cspard3(:,i) = sum(poavg(tomtate,a)); 
-    toad_cspard3(:,i) = sum(poavg(toadfish,a));
-    high_cspard3(:,i) = sum(poavg(high,a));
-end
-
-% CSPAR D4
-load('CSPAR_D4/results_ST03_FOUR_CSPAR.mat');%(1:672)
-matdays = matdays(1:672); 
-poavg = poavg(:,1:672);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_cspard4 = NaN(7,96);
-tom_cspard4 = NaN(7,96);
-toad_cspard4 = NaN(7,96);
-high_cspard4 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_cspard4(:,i) = sum(poavg(low,a));
-    tom_cspard4(:,i) = sum(poavg(tomtate,a)); 
-    toad_cspard4(:,i) = sum(poavg(toadfish,a));
-    high_cspard4(:,i) = sum(poavg(high,a));
-end
-
-% CSPAR D5
-load('CSPAR_D5/results_ST03_FIVE_CSPAR.mat'); %(5:676)
-matdays = matdays(5:676); 
-poavg = poavg(:,5:676);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_cspard5 = NaN(7,96);
-tom_cspard5 = NaN(7,96);
-toad_cspard5 = NaN(7,96);
-high_cspard5 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_cspard5(:,i) = sum(poavg(low,a));
-    tom_cspard5(:,i) = sum(poavg(tomtate,a)); 
-    toad_cspard5(:,i) = sum(poavg(toadfish,a));
-    high_cspard5(:,i) = sum(poavg(high,a));
-end
-
-% AEOLU D3
-load('AEOLU_D3/results_ST04_THREE_AEOLU.mat'); %(25:792)
-matdays = matdays(25:792);
-poavg = poavg(:,25:792);
-t=matdays-(4/24);  
-[~,~,~,hr,mn,~]=datevec(t);
-hrmn=hr+mn/60;
-low_aeolud3 = NaN(8,96);
-tom_aeolud3 = NaN(8,96);
-toad_aeolud3 = NaN(8,96);
-high_aeolud3 = NaN(8,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_aeolud3(:,i) = sum(poavg(low,a));
-    tom_aeolud3(:,i) = sum(poavg(tomtate,a)); 
-    toad_aeolud3(:,i) = sum(poavg(toadfish,a));
-    high_aeolud3(:,i) = sum(poavg(high,a));
-end
-
-% AEOLU D4
-load('AEOLU_D4/results_ST04_FOUR_AEOLU.mat'); %(5:676)
-matdays = matdays(5:676); 
-poavg = poavg(:,5:676);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_aeolud4 = NaN(7,96);
-tom_aeolud4 = NaN(7,96);
-toad_aeolud4 = NaN(7,96);
-high_aeolud4 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_aeolud4(:,i) = sum(poavg(low,a));
-    tom_aeolud4(:,i) = sum(poavg(tomtate,a)); 
-    toad_aeolud4(:,i) = sum(poavg(toadfish,a));
-    high_aeolud4(:,i) = sum(poavg(high,a));
-end
-
-% AEOLU D5
-load('AEOLU_D5/results_ST02_FIVE_AEOLU.mat'); %(5:676)
-matdays = matdays(5:676); 
-poavg = poavg(:,5:676);
-t=matdays-(4/24); 
-[~,~,~,hr,mn,~]=datevec(t); 
-hrmn=hr+mn/60; 
-low_aeolud5 = NaN(7,96);
-tom_aeolud5 = NaN(7,96);
-toad_aeolud5 = NaN(7,96);
-high_aeolud5 = NaN(7,96);
-for i = 1:length(tbins)
-    a = find(hrmn == tbins(i));
-    low_aeolud5(:,i) = sum(poavg(low,a));
-    tom_aeolud5(:,i) = sum(poavg(tomtate,a)); 
-    toad_aeolud5(:,i) = sum(poavg(toadfish,a));
-    high_aeolud5(:,i) = sum(poavg(high,a));
-end
+% clear
+% 
+% day6 = 1:6;
+% day7 = 1:7;
+% day8 = 1:8;
+% day9 = 1:9;
+% 
+% % 210RK D1
+% load('210RK_D1/results_ST01_One_210RK.mat');
+% matdays = matdays(13:780);
+% poavg = poavg(:,13:780);
+% tbins=0:0.25:23.75;
+% low = find(f>=100 & f<=2000);
+% toadfish = find(f>170 & f<=380);
+% tomtate =find(f>=600&f<=700); 
+% high = find(f>=7000 & f<= 20000);
+% low_210d1 = NaN(8,96);
+% tom_210d1 = NaN(8,96);
+% toad_210d1 = NaN(8,96);
+% high_210d1 = NaN(8,96);
+% t=matdays-(4/24);
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60;
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_210d1(:,i) = sum(poavg(low,a));
+%     tom_210d1(:,i) = sum(poavg(tomtate,a)); 
+%     toad_210d1(:,i) = sum(poavg(toadfish,a));
+%     high_210d1(:,i) = sum(poavg(high,a));
+% end
+% 
+% % 210RK D2 
+% % Trimmed to include only full days
+% load('210RK_D2/results_ST01_TWO_210.mat'); 
+% matdays = cat(1,matdays(29:124),matdays(304:783));
+% poavg = cat(2,poavg(:,29:124),poavg(:,304:783));
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_210d2 = NaN(6,96);
+% tom_210d2 = NaN(6,96);
+% toad_210d2 = NaN(6,96);
+% high_210d2 = NaN(6,96);
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_210d2(:,i) = sum(poavg(low,a));
+%     tom_210d2(:,i) = sum(poavg(tomtate,a)); 
+%     toad_210d2(:,i) = sum(poavg(toadfish,a));
+%     high_210d2(:,i) = sum(poavg(high,a));
+% end
+% 
+% 
+% 
+% % 210RK D3
+% load('210RK_D3/results_ST01_THREE_210.mat');
+% matdays = matdays(37:804);
+% poavg = poavg(:,37:804);
+% t=matdays-(4/24);  
+% [~,~,~,hr,mn,~]=datevec(t);
+% hrmn=hr+mn/60;
+% low_210d3 = NaN(8,96);
+% tom_210d3 = NaN(8,96);
+% toad_210d3 = NaN(8,96);
+% high_210d3 = NaN(8,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_210d3(:,i) = sum(poavg(low,a)); 
+%     tom_210d3(:,i) = sum(poavg(tomtate,a)); 
+%     toad_210d3(:,i) = sum(poavg(toadfish,a));
+%     high_210d3(:,i) = sum(poavg(high,a));
+% end
+% 
+% % 210RK D4
+% load('210RK_D4/results_ST01_FOUR_210.mat');
+% matdays = matdays(1:672); 
+% poavg = poavg(:,1:672);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_210d4 = NaN(7,96);
+% tom_210d4 = NaN(7,96);
+% toad_210d4 = NaN(7,96);
+% high_210d4 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_210d4(:,i) = sum(poavg(low,a));
+%     tom_210d4(:,i) = sum(poavg(tomtate,a)); 
+%     toad_210d4(:,i) = sum(poavg(toadfish,a));
+%     high_210d4(:,i) = sum(poavg(high,a));
+% end
+% 
+% %210RK D5
+% load('210RK_D5/results_ST04_FIVE_210.mat');
+% matdays = matdays(5:676); 
+% poavg = poavg(:,5:676);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_210d5 = NaN(7,96);
+% tom_210d5 = NaN(7,96);
+% toad_210d5 = NaN(7,96);
+% high_210d5 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_210d5(:,i) = sum(poavg(low,a));
+%     tom_210d5(:,i) = sum(poavg(tomtate,a)); 
+%     toad_210d5(:,i) = sum(poavg(toadfish,a));
+%     high_210d5(:,i) = sum(poavg(high,a));
+% end
+% 
+% % WESTR D1
+% load('WESTR_D1/results_ST02_ONE_WESTR.mat'); %(13:780)
+% matdays = matdays(13:780);
+% poavg = poavg(:,13:780);
+% tbins=0:0.25:23.75; 
+% low_westrd1 = NaN(8,96);
+% tom_westrd1 = NaN(8,96);
+% toad_westrd1 = NaN(8,96);
+% high_westrd1 = NaN(8,96);
+% t=matdays-(4/24);
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60;
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_westrd1(:,i) = sum(poavg(low,a));
+%     tom_westrd1(:,i) = sum(poavg(tomtate,a)); 
+%     toad_westrd1(:,i) = sum(poavg(toadfish,a));
+%     high_westrd1(:,i) = sum(poavg(high,a));
+% end
+% 
+% % WESTR D2 
+% 
+% load('WESTR_D2/results_ST02_TWO_WESTR.mat'); %(13:876)
+% matdays = matdays(13:876); 
+% poavg = poavg(:,13:876);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_westrd2 = NaN(9,96);
+% tom_westrd2 = NaN(9,96);
+% toad_westrd2 = NaN(9,96);
+% high_westrd2 = NaN(9,96);
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_westrd2(:,i) = sum(poavg(low,a));
+%     tom_westrd2(:,i) = sum(poavg(tomtate,a)); 
+%     toad_westrd2(:,i) = sum(poavg(toadfish,a));
+%     high_westrd2(:,i) = sum(poavg(high,a));
+% end
+% 
+% 
+% 
+% % WESTR D3
+% load('WESTR_D3/results_ST02_THREE_WESTR.mat'); %(25:792)
+% matdays = matdays(25:792);
+% poavg = poavg(:,25:792);
+% t=matdays-(4/24);  
+% [~,~,~,hr,mn,~]=datevec(t);
+% hrmn=hr+mn/60;
+% low_westrd3 = NaN(8,96);
+% tom_westrd3 = NaN(8,96);
+% toad_westrd3 = NaN(8,96);
+% high_westrd3 = NaN(8,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_westrd3(:,i) = sum(poavg(low,a));
+%     tom_westrd3(:,i) = sum(poavg(tomtate,a)); 
+%     toad_westrd3(:,i) = sum(poavg(toadfish,a));
+%     high_westrd3(:,i) = sum(poavg(high,a));
+% 
+% end
+% 
+% % WESTR D4
+% load('WESTR_D4/results_ST02_FOUR_WESTR.mat'); %(1:672)
+% matdays = matdays(1:672); 
+% poavg = poavg(:,1:672);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_westrd4 = NaN(7,96);
+% tom_westrd4 = NaN(7,96);
+% toad_westrd4 = NaN(7,96);
+% high_westrd4 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_westrd4(:,i) = sum(poavg(low,a));
+%     tom_westrd4(:,i) = sum(poavg(tomtate,a)); 
+%     toad_westrd4(:,i) = sum(poavg(toadfish,a));
+%     high_westrd4(:,i) = sum(poavg(high,a));
+% end
+% 
+% % WESTR D5
+% load('WESTR_D5/results_ST01_FIVE_WESTR.mat'); %(5:676)
+% matdays = matdays(5:676); 
+% poavg = poavg(:,5:676);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_westrd5 = NaN(7,96);
+% tom_westrd5 = NaN(7,96);
+% toad_westrd5 = NaN(7,96);
+% high_westrd5 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_westrd5(:,i) = sum(poavg(low,a));
+%     tom_westrd5(:,i) = sum(poavg(tomtate,a)); 
+%     toad_westrd5(:,i) = sum(poavg(toadfish,a));
+%     high_westrd5(:,i) = sum(poavg(high,a));
+% end
+% 
+% % CSPAR D1
+% load('CSPAR_D1/results_ST03_ONE_CSPAR.mat'); %(1:768)
+% matdays = matdays(1:768);
+% poavg = poavg(:,1:768);
+% low_cspard1 = NaN(8,96);
+% tom_cspard1 = NaN(8,96);
+% toad_cspard1 = NaN(8,96);
+% high_cspard1 = NaN(8,96);
+% t=matdays-(4/24);
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60;
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_cspard1(:,i) = sum(poavg(low,a));
+%     tom_cspard1(:,i) = sum(poavg(tomtate,a)); 
+%     toad_cspard1(:,i) = sum(poavg(toadfish,a));
+%     high_cspard1(:,i) = sum(poavg(high,a));
+% end
+% 
+% % CSPAR D2 
+% load('CSPAR_D2/results_ST03_TWO_CSPAR.mat'); %(13:876)
+% matdays = matdays(13:876); 
+% poavg = poavg(:,13:876);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_cspard2 = NaN(9,96);
+% toad_cspard2 = NaN(9,96);
+% tom_cspard2 = NaN(9,96);
+% high_cspard2 = NaN(9,96);
+% for i = 1:length(tbins) 
+%     a = find(hrmn == tbins(i)); 
+%     low_cspard2(:,i) = sum(poavg(low,a));
+%     tom_cspard2(:,i) = sum(poavg(tomtate,a)); 
+%     toad_cspard2(:,i) = sum(poavg(toadfish,a));
+%     high_cspard2(:,i) = sum(poavg(high,a));
+% end
+% 
+% 
+% 
+% % CSPAR D3
+% load('CSPAR_D3/results_ST03_THREE_CSPAR.mat'); %(25:792)
+% matdays = matdays(25:792);
+% poavg = poavg(:,25:792);
+% t=matdays-(4/24);  
+% [~,~,~,hr,mn,~]=datevec(t);
+% hrmn=hr+mn/60;
+% low_cspard3 = NaN(8,96);
+% tom_cspard3 = NaN(8,96);
+% toad_cspard3 = NaN(8,96);
+% high_cspard3 = NaN(8,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_cspard3(:,i) = sum(poavg(low,a));
+%     tom_cspard3(:,i) = sum(poavg(tomtate,a)); 
+%     toad_cspard3(:,i) = sum(poavg(toadfish,a));
+%     high_cspard3(:,i) = sum(poavg(high,a));
+% end
+% 
+% % CSPAR D4
+% load('CSPAR_D4/results_ST03_FOUR_CSPAR.mat');%(1:672)
+% matdays = matdays(1:672); 
+% poavg = poavg(:,1:672);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_cspard4 = NaN(7,96);
+% tom_cspard4 = NaN(7,96);
+% toad_cspard4 = NaN(7,96);
+% high_cspard4 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_cspard4(:,i) = sum(poavg(low,a));
+%     tom_cspard4(:,i) = sum(poavg(tomtate,a)); 
+%     toad_cspard4(:,i) = sum(poavg(toadfish,a));
+%     high_cspard4(:,i) = sum(poavg(high,a));
+% end
+% 
+% % CSPAR D5
+% load('CSPAR_D5/results_ST03_FIVE_CSPAR.mat'); %(5:676)
+% matdays = matdays(5:676); 
+% poavg = poavg(:,5:676);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_cspard5 = NaN(7,96);
+% tom_cspard5 = NaN(7,96);
+% toad_cspard5 = NaN(7,96);
+% high_cspard5 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_cspard5(:,i) = sum(poavg(low,a));
+%     tom_cspard5(:,i) = sum(poavg(tomtate,a)); 
+%     toad_cspard5(:,i) = sum(poavg(toadfish,a));
+%     high_cspard5(:,i) = sum(poavg(high,a));
+% end
+% 
+% % AEOLU D3
+% load('AEOLU_D3/results_ST04_THREE_AEOLU.mat'); %(25:792)
+% matdays = matdays(25:792);
+% poavg = poavg(:,25:792);
+% t=matdays-(4/24);  
+% [~,~,~,hr,mn,~]=datevec(t);
+% hrmn=hr+mn/60;
+% low_aeolud3 = NaN(8,96);
+% tom_aeolud3 = NaN(8,96);
+% toad_aeolud3 = NaN(8,96);
+% high_aeolud3 = NaN(8,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_aeolud3(:,i) = sum(poavg(low,a));
+%     tom_aeolud3(:,i) = sum(poavg(tomtate,a)); 
+%     toad_aeolud3(:,i) = sum(poavg(toadfish,a));
+%     high_aeolud3(:,i) = sum(poavg(high,a));
+% end
+% 
+% % AEOLU D4
+% load('AEOLU_D4/results_ST04_FOUR_AEOLU.mat'); %(5:676)
+% matdays = matdays(5:676); 
+% poavg = poavg(:,5:676);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_aeolud4 = NaN(7,96);
+% tom_aeolud4 = NaN(7,96);
+% toad_aeolud4 = NaN(7,96);
+% high_aeolud4 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_aeolud4(:,i) = sum(poavg(low,a));
+%     tom_aeolud4(:,i) = sum(poavg(tomtate,a)); 
+%     toad_aeolud4(:,i) = sum(poavg(toadfish,a));
+%     high_aeolud4(:,i) = sum(poavg(high,a));
+% end
+% 
+% % AEOLU D5
+% load('AEOLU_D5/results_ST02_FIVE_AEOLU.mat'); %(5:676)
+% matdays = matdays(5:676); 
+% poavg = poavg(:,5:676);
+% t=matdays-(4/24); 
+% [~,~,~,hr,mn,~]=datevec(t); 
+% hrmn=hr+mn/60; 
+% low_aeolud5 = NaN(7,96);
+% tom_aeolud5 = NaN(7,96);
+% toad_aeolud5 = NaN(7,96);
+% high_aeolud5 = NaN(7,96);
+% for i = 1:length(tbins)
+%     a = find(hrmn == tbins(i));
+%     low_aeolud5(:,i) = sum(poavg(low,a));
+%     tom_aeolud5(:,i) = sum(poavg(tomtate,a)); 
+%     toad_aeolud5(:,i) = sum(poavg(toadfish,a));
+%     high_aeolud5(:,i) = sum(poavg(high,a));
+% end
 
 
 % save daily_SPL.mat low_210d1 low_210d2 low_210d3 low_210d4 low_210d5 low_aeolud3 low_aeolud4 low_aeolud5 low_cspard1 low_cspard2 low_cspard3 low_cspard4 low_cspard5 low_westrd1 low_westrd2 low_westrd3 low_westrd4 low_westrd5 high_210d1 high_210d2 high_210d3 high_210d4 high_210d5 high_aeolud3 high_aeolud4 high_aeolud5 high_cspard1 high_cspard2 high_cspard3 high_cspard4 high_cspard5 high_westrd1 high_westrd2 high_westrd3 high_westrd4 high_westrd5
 % save daily_SPL_high.mat high_210d1 high_210d2 high_210d3 high_210d4 high_210d5 high_aeolud3 high_aeolud4 high_aeolud5 high_cspard1 high_cspard2 high_cspard3 high_cspard4 high_cspard5 high_westrd1 high_westrd2 high_westrd3 high_westrd4 high_westrd5 high_210d1 high_210d2 high_210d3 high_210d4 high_210d5 high_aeolud3 high_aeolud4 high_aeolud5 high_cspard1 high_cspard2 high_cspard3 high_cspard4 high_cspard5 high_westrd1 high_westrd2 high_westrd3 high_westrd4 high_westrd5
 
+clear
+load daily_SPL.mat
 
 %% Combining matrices and plotting
 
 nan_sep = NaN(1,96);
+tbins = 0:.25:23.75;
 
 % Low Frequency
 low_210RK_all = [low_210d1;nan_sep;low_210d2;nan_sep;low_210d3;nan_sep;low_210d4;nan_sep;low_210d5];
@@ -406,6 +409,33 @@ print('-bestfit','BestFitFigure','-dpdf')
 
 
 %% Plotting
+
+% Confirm crepuscular peaks
+
+% 210 Rock
+%figure; pcolor(tbins,1:8,10*log10(low_210d1));shading flat;set(gca,'ydir','reverse');caxis([80,115]);
+figure; pcolor(tbins,1:6,10*log10(low_210d2));shading flat;set(gca,'ydir','reverse');caxis([80,120]);
+%figure; pcolor(tbins,1:8,10*log10(low_210d3));shading flat;set(gca,'ydir','reverse');caxis([80,125]);
+%figure; pcolor(tbins,1:7,10*log10(low_210d4));shading flat;set(gca,'ydir','reverse');caxis([85,120]);
+figure; pcolor(tbins,1:7,10*log10(low_210d5));shading flat;set(gca,'ydir','reverse');caxis([85,110]);
+
+%figure; pcolor(tbins,1:8,10*log10(low_westrd1));shading flat;set(gca,'ydir','reverse');caxis([85,115]);
+figure; pcolor(tbins,1:9,10*log10(low_westrd2));shading flat;set(gca,'ydir','reverse');caxis([80,115]);
+%figure; pcolor(tbins,1:8,10*log10(low_westrd3));shading flat;set(gca,'ydir','reverse');caxis([95,115]);
+figure; pcolor(tbins,1:7,10*log10(low_westrd4));shading flat;set(gca,'ydir','reverse');caxis([85,110]);
+figure; pcolor(tbins,1:7,10*log10(low_westrd5));shading flat;set(gca,'ydir','reverse');caxis([85,105]);
+
+%figure; pcolor(tbins,1:8,10*log10(low_cspard1));shading flat;set(gca,'ydir','reverse');caxis([85,115]);
+figure; pcolor(tbins,1:9,10*log10(low_cspard2));shading flat;set(gca,'ydir','reverse');caxis([85,120]);
+%figure; pcolor(tbins,1:8,10*log10(low_cspard3));shading flat;set(gca,'ydir','reverse');caxis([100,130]);
+figure; pcolor(tbins,1:7,10*log10(low_cspard4));shading flat;set(gca,'ydir','reverse');caxis([90,125]);
+figure; pcolor(tbins,1:7,10*log10(low_cspard5));shading flat;set(gca,'ydir','reverse');caxis([85,105]);
+
+%figure; pcolor(tbins,1:8,10*log10(low_aeolud3));shading flat;set(gca,'ydir','reverse');caxis([85,120]);
+figure; pcolor(tbins,1:7,10*log10(low_aeolud4));shading flat;set(gca,'ydir','reverse');caxis([90,110]);
+figure; pcolor(tbins,1:7,10*log10(low_aeolud5));shading flat;set(gca,'ydir','reverse');caxis([80,105]);
+
+
 
 % % 210RK
 % figure;

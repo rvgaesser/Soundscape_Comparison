@@ -6,27 +6,51 @@ load('daily_SPL.mat');
 
 %% High Frequency Range
 % 210 Rock  
-c = quantile(high_210d1,0.05,2); d = quantile(high_210d1,0.95,2);rangeT1 = 10*log10(d)-10*log10(c); 
+c = quantile(high_210d1,0.05,2); d = quantile(high_210d1,0.95,2);rangeT1 = 10*log10(d)-10*log10(c);
+T1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_210d2,0.05,2); d = quantile(high_210d2,0.95,2);rangeT2 = 10*log10(d)-10*log10(c);
+T2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_210d3,0.05,2); d = quantile(high_210d3,0.95,2);rangeT3 = 10*log10(d)-10*log10(c);
+T3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_210d4,0.05,2); d = quantile(high_210d4,0.95,2);rangeT4 = 10*log10(d)-10*log10(c);
+T4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_210d5,0.05,2); d = quantile(high_210d5,0.95,2);rangeT5 = 10*log10(d)-10*log10(c);
+T5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % West Rock
 c = quantile(high_westrd1,0.05,2); d = quantile(high_westrd1,0.95,2);rangeW1 = 10*log10(d)-10*log10(c);
+W1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_westrd2,0.05,2); d = quantile(high_westrd2,0.95,2);rangeW2 = 10*log10(d)-10*log10(c);
+W2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_westrd3,0.05,2); d = quantile(high_westrd3,0.95,2);rangeW3 = 10*log10(d)-10*log10(c);
+W3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_westrd4,0.05,2); d = quantile(high_westrd4,0.95,2);rangeW4 = 10*log10(d)-10*log10(c);
+W4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_westrd5,0.05,2); d = quantile(high_westrd5,0.95,2);rangeW5 = 10*log10(d)-10*log10(c);
+W5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % CSPAR
 c = quantile(high_cspard1,0.05,2); d = quantile(high_cspard1,0.95,2);rangeC1 = 10*log10(d)-10*log10(c);
+C1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_cspard2,0.05,2); d = quantile(high_cspard2,0.95,2);rangeC2 = 10*log10(d)-10*log10(c);
+C2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_cspard3,0.05,2); d = quantile(high_cspard3,0.95,2);rangeC3 = 10*log10(d)-10*log10(c);
+C3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_cspard4,0.05,2); d = quantile(high_cspard4,0.95,2);rangeC4 = 10*log10(d)-10*log10(c);
+C4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_cspard5,0.05,2); d = quantile(high_cspard5,0.95,2);rangeC5 = 10*log10(d)-10*log10(c);
+C5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % Aeolus 
 c = quantile(high_aeolud3,0.05,2); d = quantile(high_aeolud3,0.95,2);rangeA3 = 10*log10(d)-10*log10(c);
+A3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_aeolud4,0.05,2); d = quantile(high_aeolud4,0.95,2);rangeA4 = 10*log10(d)-10*log10(c);
+A4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(high_aeolud5,0.05,2); d = quantile(high_aeolud5,0.95,2);rangeA5 = 10*log10(d)-10*log10(c);
+A5 = 10*log10(mean(d))-10*log10(mean(c));
+
+all = [T1, T2, T3, T4, T5; W1, W2,W3, W4, W5; C1, C2, C3, C4, C5; A3, A4, A5,NaN,NaN];
+figure;bar(all);title('high Frequency Daily Range');
 
 % Make vectors all the same length
 rangeT1H = cat(1,rangeT1,NaN); 
@@ -96,26 +120,51 @@ sd_range_T_high = nanstd(range_T_all(:));
 
 %% Low Frequency  
 c = quantile(low_210d1,0.05,2); d = quantile(low_210d1,0.95,2);rangeT1L = 10*log10(d)-10*log10(c);
+T1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_210d2,0.05,2); d = quantile(low_210d2,0.95,2);rangeT2L = 10*log10(d)-10*log10(c);
+T2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_210d3,0.05,2); d = quantile(low_210d3,0.95,2);rangeT3L = 10*log10(d)-10*log10(c);
+T3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_210d4,0.05,2); d = quantile(low_210d4,0.95,2);rangeT4L = 10*log10(d)-10*log10(c);
+T4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_210d5,0.05,2); d = quantile(low_210d5,0.95,2);rangeT5L = 10*log10(d)-10*log10(c);
+T5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % West Rock
 c = quantile(low_westrd1,0.05,2); d = quantile(low_westrd1,0.95,2);rangeW1L = 10*log10(d)-10*log10(c);
+W1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_westrd2,0.05,2); d = quantile(low_westrd2,0.95,2);rangeW2L = 10*log10(d)-10*log10(c);
+W2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_westrd3,0.05,2); d = quantile(low_westrd3,0.95,2);rangeW3L = 10*log10(d)-10*log10(c);
+W3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_westrd4,0.05,2); d = quantile(low_westrd4,0.95,2);rangeW4L = 10*log10(d)-10*log10(c);
+W4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_westrd5,0.05,2); d = quantile(low_westrd5,0.95,2);rangeW5L = 10*log10(d)-10*log10(c);
+W5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % CSPAR
 c = quantile(low_cspard1,0.05,2); d = quantile(low_cspard1,0.95,2);rangeC1L = 10*log10(d)-10*log10(c);
+C1 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_cspard2,0.05,2); d = quantile(low_cspard2,0.95,2);rangeC2L = 10*log10(d)-10*log10(c);
+C2 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_cspard3,0.05,2); d = quantile(low_cspard3,0.95,2);rangeC3L = 10*log10(d)-10*log10(c);
+C3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_cspard4,0.05,2); d = quantile(low_cspard4,0.95,2);rangeC4L = 10*log10(d)-10*log10(c);
+C4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_cspard5,0.05,2); d = quantile(low_cspard5,0.95,2);rangeC5L = 10*log10(d)-10*log10(c);
+C5 = 10*log10(mean(d))-10*log10(mean(c));
+
 % Aeolus
 c = quantile(low_aeolud3,0.05,2); d = quantile(low_aeolud3,0.95,2);rangeA3L = 10*log10(d)-10*log10(c);
+A3 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_aeolud4,0.05,2); d = quantile(low_aeolud4,0.95,2);rangeA4L = 10*log10(d)-10*log10(c);
+A4 = 10*log10(mean(d))-10*log10(mean(c));
 c = quantile(low_aeolud5,0.05,2); d = quantile(low_aeolud5,0.95,2);rangeA5L = 10*log10(d)-10*log10(c); 
+A5 = 10*log10(mean(d))-10*log10(mean(c));
+
+
+all = [T1, T2, T3, T4, T5; W1, W2,W3, W4, W5; C1, C2, C3, C4, C5; A3, A4, A5,NaN,NaN];
+figure;bar(all);title('Low Frequency Daily Range');
 
 % Make vectors the same size
 rangeT1_l = cat(1,rangeT1L,NaN); 

@@ -72,6 +72,7 @@ mspec_d1_night = [mspec_210RK_night1 mspec_WESTR_night1 mspec_CSPAR_night1];
 c = 1;
 f1 = 100;
 f2 = 2000;
+band = find(f>=f1 & f<=f2);
 for i = 1:36
     S1 = mspec_d1_night(:,i);
     for j = i+1:36
@@ -96,14 +97,22 @@ figure; imagesc(Df_square_d1);
 
 % Grouping
 g1_site = {'T','T','T','T','T','T','T','T','T','T','T','T','W','W','W','W','W','W','W','W','W','W','W','W','S','S','S','S','S','S','S','S','S','S','S','S'};
-clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
+%clr = [1 0 0;0 1 0;0 1 1;.5 0 1];
+clr = colormap(parula(3));
 msize = [1];
-figure; gscatter(Y1(:,1),Y1(:,2),{g1_site},clr,'.',25);
-set(gca,'FontSize',18);
-legend('210 Rock','West Rock','Spar','location','southwest'); 
-title('November 2015','FontSize',18);
-xlabel('NMS 1','FontSize',18); ylabel('NMS 2','FontSize',18);
-print('-bestfit','d1_ord','-dpdf')
+figure;subplot(1,2,1);
+gscatter(Y1(:,1),Y1(:,2),{g1_site},clr,'.',25);
+set(gca,'FontSize',18); legend('210 Rock','West Rock','Spar','location','southwest'); 
+title('November 2015','FontSize',18);xlabel('NMS 1','FontSize',18); ylabel('NMS 2','FontSize',18);
+
+subplot(1,2,2); 
+plot(f(band),10*log10(mean(mspec_210RK_night1(band,:),2)),'Color',clr(1,:));hold on;
+plot(f(band),10*log10(mean(mspec_WESTR_night1(band,:),2)),'Color',clr(2,:));hold on;
+plot(f(band),10*log10(mean(mspec_CSPAR_night1(band,:),2)),'Color',clr(3,:));hold off;
+title('Average spectra at night');legend('210 Rock', 'West Rock', 'Spar');
+xlabel('Frequency (Hz)');ylabel('SPL dB re 1uPa');
+
+%print('-bestfit','d1_ord','-dpdf')
 
 
 % Shepard Plot
